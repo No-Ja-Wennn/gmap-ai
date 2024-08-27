@@ -90,21 +90,61 @@ body {
 
 /* actions */
 .actions {
+  display: flex;
+  align-items: flex-start;
   padding-top: 20px;
   width: 392px;
   /* background-color: rgb(91, 205, 108); */
 }
-
-.choose_address__left{
-    
+.choose_address {
+  display: flex;
+  
+  width: 100%;
+  padding: 0 20px;
 }
 
-.choose_address__right{
-    display: flex;
-    flex-direction: column;
-    padding: 0 20px;
+.choose_address i{
+  display: flex;
+  align-items: center;
+  padding: 12px 6px;
+}
+.choose__address__left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  font-size: 1.4rem;
 }
 
+.choose__address__right {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.choose__address__outline{
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #484848;
+  border-radius: 6px;
+}
+.choose__address__outline + .choose__address__outline{
+  margin-top: 16px;
+
+}
+.choose__address__input {
+  border: none;
+  padding: 0px;
+  margin: 0px;
+  height: auto;
+  width: 100%;
+  outline: none;
+}
+
+.revert{
+  font-size: 1.6rem;
+  font-weight: 700;
+}
 /* map */
 
 .map {

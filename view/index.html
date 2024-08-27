@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>gmap-ai</title>
     <link rel="stylesheet" href="./index.css">
-    <link rel="stylesheet" href="./asset/fontawesome-free-6.6.0-web/css/all.min.css">
+    <link rel="stylesheet" href="./asset/font-awesome-pro/fontawesome-pro-6.5.1-web/css/all.min.css">
 </head>
 
 <body>
@@ -27,14 +27,19 @@
         </div>
         <div class="actions">
             <div class="choose_address">
-                <div class="choose_address__left">
-                    
-                    <i class="fa-thin fa-location-dot"></i>
+                <div class="choose__address__left">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <i class="fa-solid fa-location-dot"></i>
                 </div>
-                <div class="choose_address__right">
-                    <input type="text" placeholder="Choose starting poin">
-                    <input type="text" placeholder="Choose destination poin">
+                <div class="choose__address__right">
+                    <div class="choose__address__outline">
+                        <input class="choose__address__input" type="text" placeholder="Choose destination poin">
+                    </div>
+                    <div class="choose__address__outline">
+                        <input class="choose__address__input" type="text" placeholder="Choose starting poin">
+                    </div>
                 </div>
+                <i class="revert fa-solid fa-arrow-up-arrow-down"></i>
             </div>
         </div>
         <div class="map">
