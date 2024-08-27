@@ -1,0 +1,115 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: TikTokFont;
+}
+
+.root {
+  display: flex;
+  height: 100vh;
+}
+
+@font-face {
+  font-family: TikTokFont;
+  font-weight: 400;
+  src: url("./asset/font/TikTokFont-Regular.woff2");
+}
+@font-face {
+  font-family: TikTokFont;
+  font-weight: 600;
+  src: url("./asset/font/TikTokFont-Semibold.woff2");
+}
+@font-face {
+  font-family: TikTokFont;
+  font-weight: 700;
+  src: url("./asset/font/TikTokFont-Bold.woff2");
+}
+@font-face {
+  font-family: TikTokDisplayFont;
+  font-weight: 600;
+  src: url("./asset/font/TikTokDisplayFont-Semibold.woff2");
+}
+@font-face {
+  font-family: TikTokDisplayFont;
+  font-weight: 700;
+  src: url("./asset/font/TikTokDisplayFont-Bold.woff2");
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.list-icon {
+  font-size: 2rem;
+}
+
+.sidebar__list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100;
+  border-right: 1px solid #88888829;
+}
+
+.sidebar__items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 72px;
+  margin-top: 16px;
+  padding: 12px 0;
+}
+
+.sidebar__items:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.sidebar__items.active {
+  color: #1375e2;
+}
+
+.sidebar__items i {
+  font-size: 2.4rem;
+}
+.item__text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* actions */
+.actions {
+  padding-top: 20px;
+  width: 392px;
+  /* background-color: rgb(91, 205, 108); */
+}
+
+.choose_address__left{
+    
+}
+
+.choose_address__right{
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+}
+
+/* map */
+
+.map {
+  padding-top: 20px;
+
+  flex: 1;
+  background-color: brown;
+}
