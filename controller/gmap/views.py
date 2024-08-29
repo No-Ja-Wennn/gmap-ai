@@ -56,7 +56,6 @@ def get_distance(request):
             
             start_location, end_location = locations
             
-
             distance = calculate_distance(start_location, end_location)
             
             return JsonResponse({"distance": distance})
@@ -68,3 +67,32 @@ def get_distance(request):
         return JsonResponse({"error": "Invalid request method"}, status=405)
 
 # nối các đỉnh đường đi
+
+def connect_way(start, end):
+    locations = [start, end]
+
+    # code add points to locations
+    
+    # if 
+    pass
+
+def get_way(request):
+    if request.method == 'POST':
+        try:
+            points_id = json.loads(request.body)
+            if len(points_id) != 2:
+                return JsonResponse({"error": "Invald points ID"}, status = 400)
+            
+            start_location, end_location = list(api_connection.find({"id": {"$in": points_id}}))
+            
+            locations = connect_way(start_location, end_location)
+            
+            return JsonResponse({'locations': locations})
+        except Exception as e:
+            logger.error(f'Error occurred: {e}')
+            return JsonResponse({"error": str(e)}, status=400)
+    else:
+        return JsonResponse({"error": "Invalid request method"}, status=405)
+
+
+    pass
