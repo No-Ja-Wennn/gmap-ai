@@ -1,0 +1,25 @@
+.wrapper {
+  position: relative;
+//   overflow-y: auto;
+}
+
+.image {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 700px; /* Chiều cao của hình ảnh bản đồ */
+  // width: 700px; /* Chiều cao của hình ảnh bản đồ */
+  background-size: cover;
+}
+
+
+.marker {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background-color: red;
+    border-radius: 50%;
+    top: 250px; left: 350px;
+}

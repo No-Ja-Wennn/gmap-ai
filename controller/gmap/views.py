@@ -5,6 +5,10 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from .models import api_connection
 
+from .hill_climbing_search import hill_climbing_search
+from .calculate_distance import calculate_distance
+
+
 logger = logging.getLogger(__name__)
 
 # get locations
@@ -26,24 +30,6 @@ def get_name_locations(request):
 
 # get distance
 
-def calculate_distance(start, end):
-    R = 6371.0
-    
-    lat1 = math.radians(start['lat'])
-    lon1 = math.radians(start['long'])
-    lat2 = math.radians(end['lat'])
-    lon2 = math.radians(end['long'])
-    
-    dlat = lat2 - lat1
-    dlon = lon2 - lon1
-    
-    a = math.sin(dlat / 2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2)**2
-    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-    
-    # Khoảng cách
-    distance = R * c
-    
-    return distance
 
 def get_distance(request):
     if request.method == 'POST':
@@ -68,24 +54,26 @@ def get_distance(request):
 
 # nối các đỉnh đường đi
 
-def connect_way(start, end):
-    locations = [start, end]
+def connect_way(locations, start, end):
+    return hill_climbing_search(locations, start, end)
 
-    # code add points to locations
-    
-    # if 
-    pass
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 
+# @ensure_csrf_cookie
+@csrf_exempt
 def get_way(request):
     if request.method == 'POST':
         try:
-            points_id = json.loads(request.body)
+            points_id = json.loads(request.body)["id"]
+            
             if len(points_id) != 2:
                 return JsonResponse({"error": "Invald points ID"}, status = 400)
             
-            start_location, end_location = list(api_connection.find({"id": {"$in": points_id}}))
-            
-            locations = connect_way(start_location, end_location)
+            start_location, end_location = list(api_connection.find({"id": {"$in": points_id}}, {"name": 0, "_id": 0}))
+
+            locations_api = list(api_connection.find({}, {"name": 0, "_id": 0}))
+
+            locations = connect_way(locations_api, start_location, end_location)
             
             return JsonResponse({'locations': locations})
         except Exception as e:
@@ -93,6 +81,3 @@ def get_way(request):
             return JsonResponse({"error": str(e)}, status=400)
     else:
         return JsonResponse({"error": "Invalid request method"}, status=405)
-
-
-    pass

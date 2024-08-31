@@ -1,0 +1,49 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.list-icon {
+  font-size: 2rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100;
+  border-right: 1px solid #88888829;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 72px;
+  margin-top: 16px;
+  padding: 12px 0;
+}
+
+.per-walking {
+  font-size: 1.8rem;
+}
+
+.items:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.items.active {
+  color: #1375e2;
+}
+
+.items i {
+  font-size: 2.4rem;
+}
+.text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 4px;
+}

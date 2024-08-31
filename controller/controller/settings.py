@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'gmap'
+    'gmap',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'controller.urls'
@@ -111,6 +113,24 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+# add
+# settings.py
+CSRF_COOKIE_SECURE = False  # Đảm bảo rằng bạn không đang yêu cầu CSRF cookie phải được gửi qua HTTPS
+SESSION_COOKIE_SECURE = False  # Đảm bảo rằng bạn không đang yêu cầu session cookie phải được gửi qua HTTPS
+CSRF_TRUSTED_ORIGINS = ['http://*', 'https://*']  # Thêm các domain bạn muốn tin tưởng cho CSRF
+# settings.py
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    # Thêm các miền khác nếu cần
+]
 
 
 # Static files (CSS, JavaScript, Images)
