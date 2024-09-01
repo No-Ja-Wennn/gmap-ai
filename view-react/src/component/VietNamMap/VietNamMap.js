@@ -12,8 +12,8 @@ const mapHeight = 700;
 
 // Tọa độ GPS của các điểm biên
 
-const topLeft = { lat: 24.200, long: 97.34 }; // Góc trên bên trái
-const bottomRight = { lat: 7.812, long: 114.390 }; // Góc dưới bên phải
+const topLeft = { lat: 24.2, long: 97.34 }; // Góc trên bên trái
+const bottomRight = { lat: 7.812, long: 114.39 }; // Góc dưới bên phải
 
 // const topLeft = { lat: 23.392, long: 102.144 }; // Góc trên bên trái
 // const bottomRight = { lat: 8.412, long: 109.464 }; // Gó cdưới bên phải
@@ -29,31 +29,52 @@ function convertGPSToPixel(lat, long) {
   return { x, y };
 }
 
-const VietNamMap = () => {
+function VietNamMap({ locationsWay }) {
   const [locations, setLocations] = useState([]);
 
   useEffect(() => {
     fetch('http://127.0.0.1:8000/gmap/get/')
       .then((response) => response.json())
-      .then((data) => { console.log(data); setLocations(data)})
+      .then((data) => {
+        console.log(data);
+        setLocations(data);
+      })
       .catch((error) => console.error('Error:', error));
   }, []);
+
+  useEffect(()=>{
+    console.log("hehasedasd", locationsWay)
+  }, [locationsWay])
+  console.log(locations);
 
   return (
     <div className={cx('wrapper')}>
       <img className={cx('image')} src={images.vietNam} alt="" />
+      {locationsWay &&
+        locationsWay.map((location) => {
+          const pixelCoords = convertGPSToPixel(location.lat, location.long);
+          return (
+            <div
+              key={location.id}
+              className={cx('marker')}
+              style={{ top: `${pixelCoords.y}px`, left: `${pixelCoords.x}px` }}
+            ></div>
+          );
+        })}
       {locations.map((location) => {
         const pixelCoords = convertGPSToPixel(location.lat, location.long);
         return (
           <div
             key={location.id}
-            className={cx('marker')}
+            className={cx('marker2')}
             style={{ top: `${pixelCoords.y}px`, left: `${pixelCoords.x}px` }}
-          ></div>
+          >
+            <span className={cx("name")}>{location.name}</span>
+          </div>
         );
       })}
     </div>
   );
-};
+}
 
 export default VietNamMap;

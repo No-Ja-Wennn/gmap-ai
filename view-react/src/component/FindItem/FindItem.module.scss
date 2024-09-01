@@ -1,8 +1,9 @@
 .wrapper{
     display: flex;
     align-items: center;
-    padding: 12px 4px;
+    padding: 0 4px;
     margin-top: 8px;
+    width: 100%;
 
     &:hover{
         background-color: #c9c9c924;
@@ -23,4 +24,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     width: 82%;
+    padding: 12px 0;
+    text-align: start;
 }

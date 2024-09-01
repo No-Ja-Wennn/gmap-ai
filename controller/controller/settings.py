@@ -129,6 +129,7 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://192.168.1.7:3000",
     # Thêm các miền khác nếu cần
 ]
 

@@ -17,3 +17,9 @@ def calculate_distance(start, end):
     distance = R * c
     
     return distance
+
+def calculate_distance_way(locations):
+    distance = 0
+    for index in range(len(locations) - 1):
+        distance = distance + calculate_distance(locations[index], locations[index+1])
+    return distance

@@ -18,6 +18,12 @@ def way_from_neibor(neibors):
                 i["near"].remove(j["id"])
     neibors = [x["id"] for x in neibors if x["near"]]
     return neibors
+
+def convert_id_to_infor(locations, id):
+    for location in locations:
+        if location["id"] == id:
+            return location
+    return id
     
 
 def hill_climbing_search(locations, start, end):
@@ -34,8 +40,9 @@ def hill_climbing_search(locations, start, end):
         index +=1
         if u["id"] == end["id"]:
             print("Tìm thấy trạng thái kết thúc")
-            way = way_from_neibor(location_neigbor)
-            way.append(end['id'])
+            way_id = way_from_neibor(location_neigbor)
+            way_id.append(end['id'])
+            way = [convert_id_to_infor(locations, id) for id in way_id]
             return way
         L1 = []
         # print("visited: ", visited_id)

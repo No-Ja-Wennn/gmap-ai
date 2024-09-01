@@ -16,10 +16,39 @@
 
 
 .marker {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background-color: red;
+  border-radius: 50%;
+  top: 250px; left: 350px;
+  z-index: 10;
+}
+.marker2 {
     position: absolute;
-    width: 3px;
-    height: 3px;
-    background-color: red;
+    width: 4px;
+    height: 4px;
+    background-color: rgb(27, 238, 37);
     border-radius: 50%;
     top: 250px; left: 350px;
+
+    &:hover{
+      .name{
+        display: inline-flex;
+      }
+    }
+}
+
+.name{
+  display: none;
+  position: absolute;
+  font-size: 1rem;
+  font-weight: 700;
+  bottom: 100%;
+  padding: 8px;
+  color: #0b6bec;
+  background-color: #ffffffa5;
+  border-radius: 2px;
+  border: 1px solid #f34b2e;
+  z-index: 11;
 }

@@ -6,7 +6,7 @@ from django.http import HttpResponse, JsonResponse
 from .models import api_connection
 
 from .hill_climbing_search import hill_climbing_search
-from .calculate_distance import calculate_distance
+from .calculate_distance import calculate_distance, calculate_distance_way
 
 
 logger = logging.getLogger(__name__)
@@ -22,7 +22,7 @@ def get_locations(request):
 # get name of locations
 
 def get_name_locations(request):
-    names = list(api_connection.find({}, {"name": 1}))
+    names = list(api_connection.find({}, {"name": 1, "id": 1}))
     for name in names:
         for key in name:
             name[key] = str(name[key])
@@ -69,13 +69,19 @@ def get_way(request):
             if len(points_id) != 2:
                 return JsonResponse({"error": "Invald points ID"}, status = 400)
             
-            start_location, end_location = list(api_connection.find({"id": {"$in": points_id}}, {"name": 0, "_id": 0}))
+            result = list(api_connection.find({"id": {"$in": points_id}}, {"_id": 0}))
+            sorted_result = sorted(result, key=lambda x: points_id.index(x['id']))
+            start_location, end_location = sorted_result
+            
+            print([start_location, end_location])
 
-            locations_api = list(api_connection.find({}, {"name": 0, "_id": 0}))
+            locations_api = list(api_connection.find({}, {"_id": 0}))
 
             locations = connect_way(locations_api, start_location, end_location)
             
-            return JsonResponse({'locations': locations})
+            distance = calculate_distance_way(locations)
+            
+            return JsonResponse({"start":start_location,"end":  end_location,'way': locations, "distance": distance})
         except Exception as e:
             logger.error(f'Error occurred: {e}')
             return JsonResponse({"error": str(e)}, status=400)
