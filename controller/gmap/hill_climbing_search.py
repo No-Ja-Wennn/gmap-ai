@@ -12,11 +12,10 @@ def save_way(location_neigbor, id, L1 , flag = True):
     return location_neigbor
 
 def way_from_neibor(neibors):
+    empty_near_ids = {i["id"] for i in neibors if not i["near"]}
     for i in neibors:
-        for j in neibors:
-            if j["id"] in i["near"]:
-                i["near"].remove(j["id"])
-    neibors = [x["id"] for x in neibors if x["near"]]
+        i["near"] = [id for id in i["near"] if id not in empty_near_ids]
+    neibors = [x for x in neibors if x["near"]]
     return neibors
 
 def convert_id_to_infor(locations, id):
@@ -41,8 +40,8 @@ def hill_climbing_search(locations, start, end):
         if u["id"] == end["id"]:
             print("Tìm thấy trạng thái kết thúc")
             way_id = way_from_neibor(location_neigbor)
-            way_id.append(end['id'])
-            way = [convert_id_to_infor(locations, id) for id in way_id]
+            way_id.append({"id": end['id'], "near": end["near"]})
+            way = [convert_id_to_infor(locations, id["id"]) for id in way_id]
             return way
         L1 = []
         # print("visited: ", visited_id)

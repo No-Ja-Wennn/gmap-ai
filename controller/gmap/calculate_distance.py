@@ -1,5 +1,6 @@
 import math
 def calculate_distance(start, end):
+    if start == end: return 0
     R = 6371.0
     
     lat1 = math.radians(start['lat'])

@@ -52,3 +52,19 @@
   border: 1px solid #f34b2e;
   z-index: 11;
 }
+
+.lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 700px;
+  height: 700px;
+  pointer-events: none; // Để không ảnh hưởng đến các sự kiện chuột
+}
+
+.line {
+  stroke: black;
+  stroke-width: 2;
+}
+
+

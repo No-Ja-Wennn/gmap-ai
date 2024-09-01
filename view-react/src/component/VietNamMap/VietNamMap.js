@@ -29,6 +29,27 @@ function convertGPSToPixel(lat, long) {
   return { x, y };
 }
 
+const LinesBetweenMarkers = ({ locations }) => {
+  const lines = [];
+  for (let i = 0; i < locations.length - 1; i++) {
+    const start = convertGPSToPixel(locations[i].lat, locations[i].long);
+    const end = convertGPSToPixel(locations[i + 1].lat, locations[i + 1].long);
+    lines.push(
+      <line
+        key={i}
+        x1={start.x}
+        y1={start.y}
+        x2={end.x}
+        y2={end.y}
+        className={cx('line')}
+      />
+    );
+  }
+  return <svg className={cx('lines')}>{lines}</svg>;
+};
+
+
+
 function VietNamMap({ locationsWay }) {
   const [locations, setLocations] = useState([]);
 
@@ -42,14 +63,17 @@ function VietNamMap({ locationsWay }) {
       .catch((error) => console.error('Error:', error));
   }, []);
 
-  useEffect(()=>{
-    console.log("hehasedasd", locationsWay)
-  }, [locationsWay])
+  useEffect(() => {
+    console.log('hehasedasd', locationsWay);
+  }, [locationsWay]);
   console.log(locations);
+
+  
 
   return (
     <div className={cx('wrapper')}>
       <img className={cx('image')} src={images.vietNam} alt="" />
+
       {locationsWay &&
         locationsWay.map((location) => {
           const pixelCoords = convertGPSToPixel(location.lat, location.long);
@@ -61,6 +85,7 @@ function VietNamMap({ locationsWay }) {
             ></div>
           );
         })}
+      <LinesBetweenMarkers locations={locationsWay} />
       {locations.map((location) => {
         const pixelCoords = convertGPSToPixel(location.lat, location.long);
         return (
@@ -69,7 +94,7 @@ function VietNamMap({ locationsWay }) {
             className={cx('marker2')}
             style={{ top: `${pixelCoords.y}px`, left: `${pixelCoords.x}px` }}
           >
-            <span className={cx("name")}>{location.name}</span>
+            <span className={cx('name')}>{location.name}</span>
           </div>
         );
       })}

@@ -9,14 +9,16 @@ const cx = classNames.bind(styles);
 
 function Home() {
   const [locations, setLocations] = useState([]);
+  const [sidebarActive, setSidebarActive] = useState(1);
 
   return (
     <div className={cx('wrapper')}>
-      <Sidebar />
-      <Dashboard setLocations={setLocations}/>
+      <Sidebar setActive={setSidebarActive} active={sidebarActive}/>
+      <Dashboard setLocations={setLocations} sidebarActive={sidebarActive}/>
       <div className={cx('map')}>
         <VietNamMap locationsWay={locations} />
       </div>
+      <span className={cx("tag")}>Developed by CLOSE AI GROUP 8</span>
     </div>
   );
 }

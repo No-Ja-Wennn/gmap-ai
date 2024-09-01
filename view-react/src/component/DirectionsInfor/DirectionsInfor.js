@@ -5,6 +5,13 @@ import { faCar } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
+function calculateTravelTime(distance, speed) {
+  const timeInHours = distance / speed;
+  const hours = Math.floor(timeInHours);
+  const minutes = Math.round((timeInHours - hours) * 60);
+  return `${hours} hr ${minutes} min`;
+}
+
 function DirectionsInfor({data}) {
   return (
     <div className={cx('wrapper')}>
@@ -17,7 +24,7 @@ function DirectionsInfor({data}) {
           )}</p>
         </div>
         <div className={cx("numbers")}>
-          <p className={cx('time')}>3:40:00h</p>
+          <p className={cx('time')}>{calculateTravelTime(data.distance.toFixed(2), 50)}</p>
           <p className={cx('distance-count')}>{data.distance.toFixed(2)}KM</p>
         </div>
       </div>

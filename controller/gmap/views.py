@@ -8,6 +8,8 @@ from .models import api_connection
 from .hill_climbing_search import hill_climbing_search
 from .calculate_distance import calculate_distance, calculate_distance_way
 
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+
 
 logger = logging.getLogger(__name__)
 
@@ -30,21 +32,27 @@ def get_name_locations(request):
 
 # get distance
 
-
+@csrf_exempt
 def get_distance(request):
     if request.method == 'POST':
         try:
-            points_id = json.loads(request.body)
+            points_id = json.loads(request.body)["id"]
             if len(points_id) != 2:
                 return JsonResponse({"error": "Invalid points ID"}, status=400)
             
-            locations = list(api_connection.find({"id": {"$in": points_id}}))
+            locations = list(api_connection.find({"id": {"$in": points_id}}, {"_id": 0}))
             
-            start_location, end_location = locations
+            start_location = end_location = []
             
-            distance = calculate_distance(start_location, end_location)
+            if points_id[0] == points_id[1]:
+                return JsonResponse({"distance": 0, "start": locations[0], "end": locations[0]})
+            else:
+                start_location, end_location = locations
+                distance = calculate_distance(start_location, end_location)
+                start_location, end_location = locations
+                return JsonResponse({"distance": distance, "start": start_location, "end": end_location})
             
-            return JsonResponse({"distance": distance})
+            
         except Exception as e:
             logger.error(f'Error occurred: {e}')
             return JsonResponse({"error": str(e)}, status=400)
@@ -57,7 +65,6 @@ def get_distance(request):
 def connect_way(locations, start, end):
     return hill_climbing_search(locations, start, end)
 
-from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 
 # @ensure_csrf_cookie
 @csrf_exempt
@@ -71,17 +78,21 @@ def get_way(request):
             
             result = list(api_connection.find({"id": {"$in": points_id}}, {"_id": 0}))
             sorted_result = sorted(result, key=lambda x: points_id.index(x['id']))
-            start_location, end_location = sorted_result
             
-            print([start_location, end_location])
-
             locations_api = list(api_connection.find({}, {"_id": 0}))
+            start_location = end_location = sorted_result[0]
+            
+            if points_id[0] == points_id[1]:
+                locations = [start_location, end_location]
+                distance = 0
+                print(locations)
+                return JsonResponse({"start":start_location,"end":  end_location,'way': locations, "distance": distance})
+            else:
+                start_location, end_location = sorted_result
+                locations = connect_way(locations_api, start_location, end_location)
+                distance = calculate_distance_way(locations)
+                return JsonResponse({"start":start_location,"end":  end_location,'way': locations, "distance": distance})
 
-            locations = connect_way(locations_api, start_location, end_location)
-            
-            distance = calculate_distance_way(locations)
-            
-            return JsonResponse({"start":start_location,"end":  end_location,'way': locations, "distance": distance})
         except Exception as e:
             logger.error(f'Error occurred: {e}')
             return JsonResponse({"error": str(e)}, status=400)

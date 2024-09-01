@@ -8,7 +8,7 @@ import DirectionsInfor from '../DirectionsInfor';
 
 const cx = classNames.bind(styles);
 
-function Dashboard({setLocations}) {
+function Dashboard({ setLocations, sidebarActive }) {
   const [names, setNames] = useState([]);
   const [inputStartValue, setInputStartValue] = useState('');
   const [inputEndValue, setInputEndValue] = useState('');
@@ -21,6 +21,10 @@ function Dashboard({setLocations}) {
   const input2Ref = useRef(null);
   const listRef = useRef(null);
 
+  useEffect(()=>{
+    setFindSuccess(false)
+  },[sidebarActive])
+
   useEffect(() => {
     fetch('http://127.0.0.1:8000/gmap/getnames/')
       .then((response) => response.json())
@@ -29,7 +33,6 @@ function Dashboard({setLocations}) {
       })
       .catch((error) => console.error('Error:', error));
   }, []);
-
 
   const handleSpanClick = (text, id) => {
     if (focusedInput === 'input1') {
@@ -46,34 +49,62 @@ function Dashboard({setLocations}) {
 
   const handleBlur = () => setFocusedInput(null);
 
-  const handleRecevieResponse = (data) => {
+  const handleRecevieResponseWay = (data) => {
     setFocusedInput(null);
-    setFindSuccess(true)
+    setFindSuccess(true);
     setLocationsRes(data);
-    setLocations(data.way)
+    setLocations(data.way);
   };
+
+  const handleRecevieResponseDistance = (data)=>{
+    console.log(data)
+    setFocusedInput(null);
+    setFindSuccess(true);
+    data.way = [data.start, data.end]
+    setLocationsRes(data);
+    setLocations([data.start, data.end]);
+  }
 
   const handleSubmit = () => {
     const data = { id: [inputStartId, inputEndId] };
-    fetch('http://localhost:8000/gmap/getway/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Failed to send message');
-        }
-        return response.json();
+    if (sidebarActive === 1) {
+      fetch('http://localhost:8000/gmap/getdistance/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
       })
-      .then((data) => handleRecevieResponse(data))
-      .catch((error) => console.error('Error:', error));
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Failed to send message');
+          }
+          return response.json();
+        })
+        .then((data) => handleRecevieResponseDistance(data))
+        .catch((error) => console.error('Error:', error));
+    } else {
+      fetch('http://localhost:8000/gmap/getway/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Failed to send message');
+          }
+          return response.json();
+        })
+        .then((data) => handleRecevieResponseWay(data))
+        .catch((error) => console.error('Error:', error));
+    }
   };
 
   return (
     <div className={cx('wrapper')}>
+      <h2 className={cx('title')}>{sidebarActive === 1 ? 'Khoảng cách chim bay' : 'Tìm đường đi'}</h2>
       <div className={cx('address')}>
         <div className={cx('address__left')}>
           <FontAwesomeIcon icon={faLocationDot} />
@@ -86,7 +117,7 @@ function Dashboard({setLocations}) {
               placeholder="Choose destination poin"
               className={cx('address__input')}
               value={inputStartValue}
-              onChange={handleChangeStartInput}
+              // onChange={handleChangeStartInput}
               onFocus={() => setFocusedInput('input1')}
               // onBlur={handleBlur}
               ref={input1Ref}
@@ -98,7 +129,7 @@ function Dashboard({setLocations}) {
               placeholder="Choose starting poin"
               className={cx('address__input')}
               value={inputEndValue}
-              onChange={handleChangeEndInput}
+              // onChange={handleChangeEndInput}
               onFocus={() => setFocusedInput('input2')}
               // onBlur={handleBlur}
               ref={input2Ref}
@@ -116,10 +147,9 @@ function Dashboard({setLocations}) {
             <FindItem key={name.id} id={name.id} name={name.name} handleSpanClick={handleSpanClick} />
           ))}
         </div>
-      ): (
+      ) : (
         findSuccess && <DirectionsInfor data={locationsRes} />
       )}
-      
     </div>
   );
 }

@@ -4,14 +4,29 @@
   flex-direction: column;
   padding-top: 20px;
   width: 392px;
-  /* background-color: rgb(91, 205, 108); */
+  background-color: rgb(255, 255, 255);
 }
+.title, .address, .list, .find-btn{
+  box-sizing: border-box;
+  width: 100%;
+  padding: 20px 0;
+  margin: 8px 0;
+  // background-color: #c8c8c815;
+  z-index: 5;
+  border-radius: 4px;
+  box-shadow: 1px 1px 8px 2px rgba(222, 222, 222, 0.667);
+}
+.title{
+  padding: 12px 4px 12px 12px;
+  text-align: center;
+}
+
 .address {
   display: flex;
   box-sizing: border-box;
   width: 100%;
-  padding: 0 20px 20px;
-  // margin: 0 20px;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
 .address i {
@@ -49,6 +64,7 @@
   height: auto;
   width: 100%;
   outline: none;
+  caret-color: red;
 }
 
 .revert {
@@ -62,7 +78,6 @@
   font-size: 1.6rem;
   font-weight: 600;
   padding: 4px 6px;
-  margin-right: 20px;
   outline: none;
   border: 2px solid rgba(246, 62, 74, 0.792);
   border-radius: 4px;
@@ -76,45 +91,3 @@
 }
 
 // way
-
-/* way */
-.directions-trip{
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 100px;
-  max-width: 352px;
-  padding: 20px;
-  border-top: 5px solid #D9DDE0;
-  border-bottom: 5px solid #D9DDE0;
-  font-size: 13px;
-  line-height: 1.5;
-}
-.icon-car{
-  display: flex;
-  font-size: 20px;
-  width: 39px;
-  align-items: center;
-  flex-direction: column;
-  padding-top: 5px;
-}
-.choose__way__distance{
-  width: 202px;
-  padding-left: 10px;
-}
-.choose__way__infor{
-  width: 102px;
-  text-align: right;
-}
-.directions-trip-title{
-  font-size: 15px;
-}
-
-.time-text{
-  color: #416A53;
-}
-
-.distance-text{
-  color: #6E727E;
-  // color: #6E727E;
-}
