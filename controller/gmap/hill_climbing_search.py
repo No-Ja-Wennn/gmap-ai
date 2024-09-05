@@ -23,7 +23,17 @@ def convert_id_to_infor(locations, id):
         if location["id"] == id:
             return location
     return id
-    
+
+def saveTable(variable, isEmpty, u, uBelongToC, v, l1, l):
+    data = {
+        "isEmpty": isEmpty,
+        "u": u,
+        "uBelongToT": uBelongToC,
+        "v": v,
+        "l1": l1,
+        "l": l,
+    }
+    variable.append(data)
 
 def hill_climbing_search(locations, start, end):
     L = [start]
@@ -31,18 +41,33 @@ def hill_climbing_search(locations, start, end):
     waiting_id = [start["id"]]
     location_neigbor = []
     index = 0
-
+    tableShow = [] # save table of ... for return 
+    
     while L:
+        data = {}
+        data["isEmpty"] = False
         u = L.pop(0)
+        data["u"] = u
         visited_id.append(u["id"])
         
         index +=1
+        
+        data["uBelongToT"] = False 
+        
         if u["id"] == end["id"]:
             print("Tìm thấy trạng thái kết thúc")
             way_id = way_from_neibor(location_neigbor)
             way_id.append({"id": end['id'], "near": end["near"]})
             way = [convert_id_to_infor(locations, id["id"]) for id in way_id]
-            return way
+            data["u"] = u
+            data["uBelongToT"] = True 
+            data["v"] = []
+            data["l1"] = []
+            data["l"] = []
+
+            tableShow.append(data)
+            
+            return way, tableShow
         L1 = []
         # print("visited: ", visited_id)
         # print("wating_id: ", waiting_id)
@@ -57,8 +82,13 @@ def hill_climbing_search(locations, start, end):
                         v['distance'] = calculate_distance(u, v)
                         L1.append(v)
                         waiting_id.append(id)
+        data["v"] = L1.copy()
         L1.sort(key=lambda x: x["distance"])
+        data["l1"] = L1.copy()
         L = L1 + L
+        data["l"] = L.copy()
+            
+        tableShow.append(data)
         # for value in L:
         #     print(value)
         # print("==========================================================")

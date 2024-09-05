@@ -57,16 +57,14 @@ function VietNamMap({ locationsWay }) {
     fetch('http://127.0.0.1:8000/gmap/get/')
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setLocations(data);
       })
       .catch((error) => console.error('Error:', error));
   }, []);
 
   useEffect(() => {
-    console.log('hehasedasd', locationsWay);
+    
   }, [locationsWay]);
-  console.log(locations);
 
   
 

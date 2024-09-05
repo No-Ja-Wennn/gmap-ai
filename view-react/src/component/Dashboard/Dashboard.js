@@ -8,7 +8,7 @@ import DirectionsInfor from '../DirectionsInfor';
 
 const cx = classNames.bind(styles);
 
-function Dashboard({ setLocations, sidebarActive }) {
+function Dashboard({ setLocations, sidebarActive, setShowTableValue }) {
   const [names, setNames] = useState([]);
   const [inputStartValue, setInputStartValue] = useState('');
   const [inputEndValue, setInputEndValue] = useState('');
@@ -61,6 +61,7 @@ function Dashboard({ setLocations, sidebarActive }) {
   // const handleBlur = () => setFocusedInput(null);
 
   const handleRecevieResponseWay = (data) => {
+    setShowTableValue(data.tableShow)
     setFocusedInput(null);
     setFindSuccess(true);
     setLocationsRes(data);
@@ -68,7 +69,6 @@ function Dashboard({ setLocations, sidebarActive }) {
   };
 
   const handleRecevieResponseDistance = (data)=>{
-    console.log(data)
     setFocusedInput(null);
     setFindSuccess(true);
     data.way = [data.start, data.end]
@@ -127,7 +127,7 @@ function Dashboard({ setLocations, sidebarActive }) {
               type="text"
               placeholder="Choose destination poin"
               className={cx('address__input')}
-              value={inputStartValue}
+              defaultValue={inputStartValue}
               // onChange={handleChangeStartInput}
               onFocus={() => setFocusedInput('input1')}
               // onBlur={handleBlur}
@@ -139,7 +139,7 @@ function Dashboard({ setLocations, sidebarActive }) {
               type="text"
               placeholder="Choose starting poin"
               className={cx('address__input')}
-              value={inputEndValue}
+              defaultValue={inputEndValue}
               // onChange={handleChangeEndInput}
               onFocus={() => setFocusedInput('input2')}
               // onBlur={handleBlur}
