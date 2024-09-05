@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Dashboard.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowsUpDown, faCar, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faArrowsUpDown, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import FindItem from '../FindItem';
 import { useEffect, useRef, useState } from 'react';
 import DirectionsInfor from '../DirectionsInfor';
@@ -31,8 +31,19 @@ function Dashboard({ setLocations, sidebarActive }) {
       .then((data) => {
         setNames(data);
       })
-      .catch((error) => console.error('Error:', error));
+      .catch((error) => {
+        console.error('Error:', error)
+      });
   }, []);
+
+  // useEffect(() => {
+  //   fetch('http://192.168.1.7:8000/gmap/getnames/')
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setNames(data);
+  //     })
+  //     .catch((error) => console.error('Error:', error));
+  // }, []);
 
   const handleSpanClick = (text, id) => {
     if (focusedInput === 'input1') {
@@ -44,10 +55,10 @@ function Dashboard({ setLocations, sidebarActive }) {
     }
   };
 
-  const handleChangeStartInput = (e) => setInputStartValue(e.target.value);
-  const handleChangeEndInput = (e) => setInputEndValue(e.target.value);
+  // const handleChangeStartInput = (e) => setInputStartValue(e.target.value);
+  // const handleChangeEndInput = (e) => setInputEndValue(e.target.value);
 
-  const handleBlur = () => setFocusedInput(null);
+  // const handleBlur = () => setFocusedInput(null);
 
   const handleRecevieResponseWay = (data) => {
     setFocusedInput(null);

@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-h$q1p&2%jaa#s=*&f&a1rf%dbtt5==iurt30wu&m)2ktm5n$*-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -132,6 +132,16 @@ CORS_ALLOWED_ORIGINS = [
     "http://192.168.1.7:3000",
     # Thêm các miền khác nếu cần
 ]
+
+
+# settings.py
+ALLOWED_HOSTS = ['192.168.1.7', 'localhost', '127.0.0.1']
+
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = True
+
 
 
 # Static files (CSS, JavaScript, Images)
