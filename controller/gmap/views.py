@@ -25,6 +25,7 @@ def get_locations(request):
 
 def get_name_locations(request):
     names = list(api_connection.find({}, {"name": 1, "id": 1}))
+    print("hello")
     for name in names:
         for key in name:
             name[key] = str(name[key])

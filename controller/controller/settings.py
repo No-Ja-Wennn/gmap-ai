@@ -127,20 +127,30 @@ REST_FRAMEWORK = {
     ),
 }
 
+# settings.py
+ALLOWED_HOSTS = ['192.168.1.7', 'localhost', '127.0.0.1', '74a0-2405-4802-6f5-32b0-dc4a-3ad8-744f-224f.ngrok-free.app',]
+
+
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://192.168.1.7:3000",
+    "https://74a0-2405-4802-6f5-32b0-dc4a-3ad8-744f-224f.ngrok-free.app"
     # Thêm các miền khác nếu cần
 ]
 
 
-# settings.py
-ALLOWED_HOSTS = ['192.168.1.7', 'localhost', '127.0.0.1']
 
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+    'http://192.168.1.7:3000',
+    'https://74a0-2405-4802-6f5-32b0-dc4a-3ad8-744f-224f.ngrok-free.app'
+]
 
 
 

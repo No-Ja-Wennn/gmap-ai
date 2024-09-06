@@ -2,6 +2,9 @@ import classNames from 'classnames/bind';
 import styles from './VietNamMap.module.scss';
 import images from '../../assets/images';
 import { useEffect, useState } from 'react';
+// import pathApi from '~/pathApi';
+import pathApi from '../../pathApi';
+
 //  đang lỗi ~ chưa dùng được, dùng tạm ../
 
 const cx = classNames.bind(styles);
@@ -54,7 +57,7 @@ function VietNamMap({ locationsWay }) {
   const [locations, setLocations] = useState([]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/gmap/get/')
+    fetch(pathApi + 'get/')
       .then((response) => response.json())
       .then((data) => {
         setLocations(data);
