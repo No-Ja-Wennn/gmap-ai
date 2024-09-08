@@ -1,5 +1,5 @@
 # GMAP-AI project
-- Developed by with 7 member: Quyen, Truong, Van, Tu, Tien, Dat, Phuc.
+- Developed by with 7 members: Quyen, Truong, Van, Tu, Tien, Dat, Phuc.
 - This project used Django for Back-end, Reactjs for Front-end and Mongodb database.
 - Algorithm: **hill-climbing search**.
 
