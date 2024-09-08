@@ -25,6 +25,7 @@ def get_locations(request):
 
 def get_name_locations(request):
     names = list(api_connection.find({}, {"name": 1, "id": 1}))
+    print("hello")
     for name in names:
         for key in name:
             name[key] = str(name[key])
@@ -85,13 +86,12 @@ def get_way(request):
             if points_id[0] == points_id[1]:
                 locations = [start_location, end_location]
                 distance = 0
-                print(locations)
-                return JsonResponse({"start":start_location,"end":  end_location,'way': locations, "distance": distance})
             else:
                 start_location, end_location = sorted_result
-                locations = connect_way(locations_api, start_location, end_location)
+                locations, tableShow = connect_way(locations_api, start_location, end_location)
                 distance = calculate_distance_way(locations)
-                return JsonResponse({"start":start_location,"end":  end_location,'way': locations, "distance": distance})
+            
+            return JsonResponse({"start":start_location,"end":  end_location,'way': locations, "distance": distance, "tableShow": tableShow})
 
         except Exception as e:
             logger.error(f'Error occurred: {e}')

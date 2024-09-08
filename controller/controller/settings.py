@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +27,7 @@ SECRET_KEY = 'django-insecure-h$q1p&2%jaa#s=*&f&a1rf%dbtt5==iurt30wu&m)2ktm5n$*-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -127,10 +129,61 @@ REST_FRAMEWORK = {
     ),
 }
 
+# settings.py
+ALLOWED_HOSTS = ['192.168.1.7', 'localhost', '127.0.0.1', 'fea1-2405-4802-6f5-32b0-dc4a-3ad8-744f-224f.ngrok-free.app',]
+
+
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://192.168.1.7:3000",
+    "https://fea1-2405-4802-6f5-32b0-dc4a-3ad8-744f-224f.ngrok-free.app"
     # Thêm các miền khác nếu cần
+]
+
+
+
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = True
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+    'http://192.168.1.7:3000',
+    'https://fea1-2405-4802-6f5-32b0-dc4a-3ad8-744f-224f.ngrok-free.app'
+]
+
+## static 
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'controller/templates/build/static'),
+]
+
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'controller/templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
 ]
 
 

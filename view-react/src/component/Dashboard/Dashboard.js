@@ -1,14 +1,15 @@
 import classNames from 'classnames/bind';
 import styles from './Dashboard.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowsUpDown, faCar, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faArrowsUpDown, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import FindItem from '../FindItem';
 import { useEffect, useRef, useState } from 'react';
 import DirectionsInfor from '../DirectionsInfor';
+import pathApi from '../../pathApi';
 
 const cx = classNames.bind(styles);
 
-function Dashboard({ setLocations, sidebarActive }) {
+function Dashboard({ setLocations, sidebarActive, setShowTableValue }) {
   const [names, setNames] = useState([]);
   const [inputStartValue, setInputStartValue] = useState('');
   const [inputEndValue, setInputEndValue] = useState('');
@@ -21,18 +22,60 @@ function Dashboard({ setLocations, sidebarActive }) {
   const input2Ref = useRef(null);
   const listRef = useRef(null);
 
-  useEffect(()=>{
-    setFindSuccess(false)
-  },[sidebarActive])
+  useEffect(() => {
+    setFindSuccess(false);
+  }, [sidebarActive]);
+
+  console.log(pathApi + 'getnames/');
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/gmap/getnames/')
-      .then((response) => response.json())
+    fetch(pathApi + 'getnames/')
+      .then((response) => {
+        console.log(response)
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          return response.json();
+        } else {
+          throw new Error('Response is not JSON');
+        }
+      })
       .then((data) => {
+        console.log(data);
         setNames(data);
       })
-      .catch((error) => console.error('Error:', error));
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
   }, []);
+  
+  // useEffect(() => {
+  //   console.log("hello");
+  //   fetch(pathApi + 'getnames/')
+  //     .then((response) => {
+  //       console.log(response);  // Log chi tiết response
+  //       console.log('Response Headers:', response.headers);  // Log headers
+  //       if (!response.ok) {
+  //         throw new Error('Network response was not ok');
+  //       }
+  //       const contentType = response.headers.get('content-type');
+  //       if (contentType && contentType.includes('application/json')) {
+  //         return response.json();
+  //       } else {
+  //         throw new Error('Response is not JSON. Content-Type is: ' + contentType);
+  //       }
+  //     })
+  //     .then((data) => {
+  //       console.log(data);
+  //       setNames(data);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching data:', error);
+  //     });
+  // }, []);
+
 
   const handleSpanClick = (text, id) => {
     if (focusedInput === 'input1') {
@@ -44,31 +87,26 @@ function Dashboard({ setLocations, sidebarActive }) {
     }
   };
 
-  const handleChangeStartInput = (e) => setInputStartValue(e.target.value);
-  const handleChangeEndInput = (e) => setInputEndValue(e.target.value);
-
-  const handleBlur = () => setFocusedInput(null);
-
   const handleRecevieResponseWay = (data) => {
+    setShowTableValue(data.tableShow);
     setFocusedInput(null);
     setFindSuccess(true);
     setLocationsRes(data);
     setLocations(data.way);
   };
 
-  const handleRecevieResponseDistance = (data)=>{
-    console.log(data)
+  const handleRecevieResponseDistance = (data) => {
     setFocusedInput(null);
     setFindSuccess(true);
-    data.way = [data.start, data.end]
+    data.way = [data.start, data.end];
     setLocationsRes(data);
     setLocations([data.start, data.end]);
-  }
+  };
 
   const handleSubmit = () => {
     const data = { id: [inputStartId, inputEndId] };
     if (sidebarActive === 1) {
-      fetch('http://localhost:8000/gmap/getdistance/', {
+      fetch(pathApi + 'getdistance/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -84,7 +122,7 @@ function Dashboard({ setLocations, sidebarActive }) {
         .then((data) => handleRecevieResponseDistance(data))
         .catch((error) => console.error('Error:', error));
     } else {
-      fetch('http://localhost:8000/gmap/getway/', {
+      fetch(pathApi + 'getway/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -116,7 +154,7 @@ function Dashboard({ setLocations, sidebarActive }) {
               type="text"
               placeholder="Choose destination poin"
               className={cx('address__input')}
-              value={inputStartValue}
+              defaultValue={inputStartValue}
               // onChange={handleChangeStartInput}
               onFocus={() => setFocusedInput('input1')}
               // onBlur={handleBlur}
@@ -128,7 +166,7 @@ function Dashboard({ setLocations, sidebarActive }) {
               type="text"
               placeholder="Choose starting poin"
               className={cx('address__input')}
-              value={inputEndValue}
+              defaultValue={inputEndValue}
               // onChange={handleChangeEndInput}
               onFocus={() => setFocusedInput('input2')}
               // onBlur={handleBlur}
