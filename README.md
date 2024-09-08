@@ -15,7 +15,7 @@ You should install MongoDB Compass in this [link](https://www.mongodb.com/try/do
 
 You can watch [this video](https://youtu.be/cojUxpMXH7A?si=lf6hUelOz3XbEV_W) to setup environment.
 
-Access model\tinh_thanh_viet_nam.json and copy content.
+Access `model\tinh_thanh_viet_nam.json` and copy content.
 
 Back to MongoDB Compass and create database name "AI" and Collection Name "locations".
 
